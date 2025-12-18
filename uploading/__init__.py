@@ -1,1 +1,2 @@
-from .upload_manager import UploadIPsManager
+from .ips_manager import DataIPsManager
+from .favorite_manager import DataFavoriteManager
