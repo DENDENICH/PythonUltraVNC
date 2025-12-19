@@ -13,29 +13,38 @@ class JSONBaseDataManager:
         self.path_to_file = path_to_file
         self.json_dump_params = JSONDumpParams()
 
-
-    def get_data(self) -> Dict[str, List[str]]:
+    def get_data(self) -> JsonData:
         """
         Возвращает объекты данных из JSON файла
         :return: Dict[str, List[str]]
         """
         with open(self.path_to_file, "r", encoding="utf-8") as f:
-            pass
+            data = self._convert_dict_to_ipentry(json.load(f))
+        return data
 
+    @staticmethod
+    def _convert_dict_to_ipentry(data: Dict[str, List[Dict[str, str]]]) -> JsonData:
+        """
+        :param data: данные для конвертации
+        :return:
+        """
+        convert_data = dict()
+        for key, ips_list in data.items():
+            convert_data[key] = [IPEntry(**d) for d in ips_list]
+        return convert_data
 
     def upload_new(self, data: JsonData) -> None:
         """
         Создать новые данные в JSON файле
-        
+
         :param data: данные типа Dict[str, List[str]]
         :return: None
         """
-        
+
         exists_data = self.get_data()
         merged = self._merge_data(exists_data, data)
 
         self._save(merged)
-
 
     def _merge_data(
             self, 
@@ -60,9 +69,9 @@ class JSONBaseDataManager:
                     exists_data[title].append(entry)
 
         return exists_data
-        
 
-    def _ip_exists(self, entries: List[IPEntry], new_ip: str) -> bool:
+    @staticmethod
+    def _ip_exists(entries: List[IPEntry], new_ip: str) -> bool:
         """
         Проверка дубликатов добавляемого ip в определенный заголовок
         :param entries: данные ip существующего заголовка
@@ -70,7 +79,6 @@ class JSONBaseDataManager:
         :return: bool
         """
         return any(e.ip == new_ip for e in entries)
-
 
     def _save(self, data: JsonData) -> None:
         """

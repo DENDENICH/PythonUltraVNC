@@ -4,16 +4,13 @@ from uploading import DataFavoriteManager, DataIPsManager
 from interface import IPListApp
 
 
-
 if __name__ == "__main__":
+    d = DataIPsManager()
 
-    # root = tk.Tk()
-    # objects = UploadIPsManager().object_ips
-    # app = IPListApp(root, objects)
-    # root.mainloop()
-    d = DataFavoriteManager()
-    d.upload_new({
-        "Test_old": [
-            "255.100.0.0/32",
-        ]
-    })
+    root = tk.Tk()
+    app = IPListApp(
+        root=root,
+        data_ips_manager=DataIPsManager(),
+        data_favorite_manager=DataFavoriteManager()
+    )
+    root.mainloop()

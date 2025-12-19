@@ -44,8 +44,8 @@ def validate_title(
     Валидация заголовков
 
     :param value: проверяемое значение - комментарий или название заголовка
-    :param field_name: имя значения
     :param allow_empty: разрешается быть пустым
+    :param max_length: максимальная длинна строки
     :return: None
     """
     if not isinstance(value, str):
@@ -64,6 +64,7 @@ def validate_comment(
 
     :param value: проверяемое значение - комментарий или название заголовка
     :param allow_empty: разрешается быть пустым
+    :param max_length: максимальная длинна строки
     :return: None
     """
     _validate_text_general(value, allow_empty, max_length)

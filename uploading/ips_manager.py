@@ -1,4 +1,3 @@
-from typing import Dict, List
 from pathlib import Path
 
 from config import (
@@ -24,25 +23,23 @@ class DataIPsManager(JSONBaseDataManager):
     def __init__(self, path_to_file: Path = PATH_TO_IPS_FILE):
         super().__init__(path_to_file)
 
-
     def get_data(self) -> JsonData:
         """
         Возвращает объекты данных ip
-        :return: Dict[str, List[str]]
+        :return: объекты данных ip
         """
         try:
             result = super().get_data()
         except FileNotFoundError:
-            raise FileExistsError(f"Файл {self.path_to_file} для загрузки данных не найден")
+            raise FileNotFound(f"Файл {self.path_to_file} для загрузки данных не найден")
         else:
             return result
-
 
     def upload_new(self, data: JsonData) -> None:
         """
         Создать новые данные ips в файле
         
-        :param data: данные типа Dict[str, List[str]]
+        :param data: новые данные
         :return: None
         """
         self._checking_data(data)
@@ -53,8 +50,8 @@ class DataIPsManager(JSONBaseDataManager):
         except Exception as e:
             raise OtherException(f"Не предвиденная ошибка - {e}")
 
-
-    def _checking_data(self, data: JsonData) -> None:
+    @staticmethod
+    def _checking_data(data: JsonData) -> None:
         """
         Осуществляет проверку данных на валидные символы
         

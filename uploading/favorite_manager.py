@@ -6,6 +6,7 @@ from config import (
 )
 from errors import InvalidFormat, FileNotFound, OtherException
 from .base_date_manager import JSONBaseDataManager
+from .items import JsonData
 
 
 class DataFavoriteManager(JSONBaseDataManager):
@@ -16,7 +17,7 @@ class DataFavoriteManager(JSONBaseDataManager):
     def __init__(self, path_to_file: Path = PATH_TO_FAVORITE_FILE):
         super().__init__(path_to_file)
 
-    def get_data(self) -> Dict[str, List[str]]:
+    def get_data(self) -> JsonData:
         """
         Возвращает объекты данных ip
         :return: Dict[str, List[str]]
@@ -28,7 +29,7 @@ class DataFavoriteManager(JSONBaseDataManager):
         else:
             return result
 
-    def upload_new(self, data: Dict[str, List[str]]) -> None:
+    def upload_new(self, data: JsonData) -> None:
         """
         Создать новые данные ips в файле
         
